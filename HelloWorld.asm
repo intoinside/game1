@@ -16,14 +16,58 @@
     STA $D018   ;Charset mode set to display custom char $2000-$2800
     LDA #$00    ;Set colour black
     STA $D020   ;to border
-    LDA #$07    ;0b
+    LDA #$07
     STA $D022   ;Char Multicolour 1
-    LDA #$01    ;#$0C
+    LDA #$01
     STA $D023   ;Char Multicolour 2
-    LDA #$09    ;#$0C
+    LDA #$09
     STA $D024   ;Char Multicolour 3
     LDA #$03
     STA $D021   ;Char Multicolour 3
+
+; setup sprite
+    lda #$01
+    sta $d015   ;enable the sprite
+    sta $d01c   ;turn on the multicolor mode
+    lda #$00
+    sta $d025   ; multicolor1
+    lda #$01
+    sta $d026   ; multicolor2
+    lda #$05
+    sta $d027   ; sprite 0 color
+    lda #$70
+    sta $d000   ;set the horizontal position
+    lda #$d2
+    sta $d001   ;set the vertical position 
+
+
+    lda shape
+    sta $7f8 ;sprite shape pointer 
+    lda #$fe
+    sta shape
+sprite_ani
+    jsr delay ;create a loop 
+    lda shape ;shape=254 
+    inc shape
+    cmp #$ff
+    bcc shp
+    lda #$fd
+    sta $7f8
+shp
+    lda shape
+    sta $7f8 ;sprite shape 
+    dec $d000 ;pos. x 53248 
+    jmp sprite_ani
+delay
+    ldy #$15 ;y=50 
+loop1
+    ldx #$fe ;x=250 
+loop2
+    dex
+    bne loop2 ;x=0 
+    dey
+    bne loop1
+    ;rts
 
 ;Draw main screen from matrix -
 ;NOTE max 256 chars per location ($0400-$04FF, $0500-$05ff,
@@ -74,3 +118,8 @@ incbin "map_1.bin"
 *=$2C00
 ATTRIBS
 incbin "cols.bin"
+
+shape byte $fe 
+counter byte 0 ; * = $3f80
+*=$3F80
+incbin "frog.spt",1,1,true 
