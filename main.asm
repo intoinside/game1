@@ -7,6 +7,7 @@
     BYTE $33, $30, $34, $29, $00, $00, $00
 
 IncAsm "label.asm"
+IncAsm "sprites.asm"
 
 
 *=$0900
@@ -28,7 +29,7 @@ IncAsm "label.asm"
     STA BACKGROUND_COLOR    ;Char Multicolour 3
 
 ; setup sprite
-    lda #$01
+    lda #$03
     sta SPRITE_ENABLE
     sta SPRITE_MULTICOLOR   ;turn on the multicolor mode
     lda #$00
@@ -37,15 +38,17 @@ IncAsm "label.asm"
     sta SPRITE_EXTRA_COLOR2 ; multicolor2
     lda #$05
     sta SPRITE_0_COLOR      ; sprite 0 color
-    lda #$70
+    lda #$05
+    sta SPRITE_1_COLOR      ; sprite 0 color
+    lda #$80
     sta SPRITE_0_X          ;set the horizontal position
     lda #$d2
     sta SPRITE_0_Y          ;set the vertical position 
-
-    lda shape
-    sta SPRITE_PTR          ;sprite shape pointer 
-    lda #$fe
-    sta shape
+    lda #$9F
+    sta SPRITE_1_X          ;set the horizontal position
+    lda #$d3
+    sta SPRITE_1_Y          ;set the vertical position 
+    jsr loadsprites
 
 
 ;Draw main screen from matrix -
@@ -82,32 +85,6 @@ PAINTCOLS
     INX                 ;Increment accumulator until 256 bytes read
     BNE PAINTCOLS
 
-; Setup sprite animation
-sprite_ani
-    jsr delay               ;create a loop 
-    lda shape               ;shape=254 
-    inc shape
-    cmp #$ff
-    bcc shp
-    lda #$fd
-    sta SPRITE_PTR
-shp
-    lda shape
-    sta SPRITE_PTR ;sprite shape 
-    dec SPRITE_0_X ;pos. x 53248 
-    jmp sprite_ani
-delay
-    ldy #$15 ;y=50 
-loop1
-    ldx #$fe ;x=250 
-loop2
-    dex
-    bne loop2 ;x=0 
-    dey
-    bne loop1
-    ;rts
-
-
     JMP *               ;Infinite loop
 
 ;If using a cross assembler use CORRECT pseudo command,
@@ -123,5 +100,5 @@ incbin "map_1.bin"
 ATTRIBS
 incbin "cols.bin"
 
-*=$3F80
-incbin "frog.spt",1,2,true 
+*=$3000
+incbin "frog.spt",1,2, true
