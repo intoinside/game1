@@ -58,13 +58,13 @@ IncAsm "routine.asm"
 ;$0600,$06ff,$0700,$07e8)
     LDX #$00
 drawscrn
-    LDA MATRIX,X        ;Get data from map
+    LDA matrix,X        ;Get data from map
     STA $0400,X         ;Put data into SCREEN RAM
-    LDA MATRIX+$100,X   ;Fetch the next 256 bytes of data from binary
+    LDA matrix+$100,X   ;Fetch the next 256 bytes of data from binary
     STA $0500,X         ;Store the next 256 bytes to screen
-    LDA MATRIX+$200,X   ;... and so on
+    LDA matrix+$200,X   ;... and so on
     STA $0600,X
-    LDA MATRIX+$2E8,X
+    LDA matrix+$2E8,X
     STA $06E8,X
     INX                 ;Increment accumulator until 256 bytes read
     BNE drawscrn
@@ -73,13 +73,13 @@ drawscrn
     LDX #$00
 paintcols
     LDY SCREEN_RAM,X    ;Read screen position
-    LDA ATTRIBS,Y       ;Read attributes table
+    LDA attribs,Y       ;Read attributes table
     STA $D800,X         ;Store to COLOUR RAM
     LDY SCREEN_RAM + $100,X         ;Read next 256 screen positions
-    LDA ATTRIBS,Y       ;Store to COLOUR RAM + $100
+    LDA attribs,Y       ;Store to COLOUR RAM + $100
     STA $D900,X         ;... and so on
     LDY SCREEN_RAM + $200,X
-    LDA ATTRIBS,Y
+    LDA attribs,Y
     STA $DA00,X
     LDY $06E8,X
     LDA ATTRIBS,Y
@@ -96,11 +96,11 @@ paintcols
 incbin "charset.bin"
 
 *=$2800
-MATRIX
+matrix
 incbin "map_1.bin"
 
 *=$2C00
-ATTRIBS
+attribs
 incbin "cols.bin"
 
 *=$3000
