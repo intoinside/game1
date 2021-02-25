@@ -5,34 +5,34 @@
     <links></links>
     <include>True</include>
     <multi>True</multi>
-    <spbkgnd>12</spbkgnd>
-    <spcolour>5</spcolour>
+    <spbkgnd>1</spbkgnd>
+    <spcolour>14</spcolour>
     <mcolour1>0</mcolour1>
     <mcolour2>7</mcolour2>
     <expandx>False</expandx>
     <expandy>False</expandy>
     <sdata>
       <data>0</data>
-      <data>786432</data>
-      <data>4128960</data>
-      <data>3605488</data>
-      <data>3605360</data>
-      <data>4129648</data>
-      <data>895424</data>
-      <data>436800</data>
-      <data>436800</data>
-      <data>699008</data>
-      <data>436800</data>
-      <data>371008</data>
-      <data>677504</data>
-      <data>699008</data>
-      <data>436800</data>
-      <data>349504</data>
-      <data>21760</data>
-      <data>17408</data>
-      <data>17424</data>
-      <data>1328208</data>
-      <data>1393984</data>
+      <data>0</data>
+      <data>0</data>
+      <data>0</data>
+      <data>0</data>
+      <data>524288</data>
+      <data>2785280</data>
+      <data>696320</data>
+      <data>8192</data>
+      <data>86016</data>
+      <data>489216</data>
+      <data>488704</data>
+      <data>86016</data>
+      <data>0</data>
+      <data>0</data>
+      <data>0</data>
+      <data>0</data>
+      <data>0</data>
+      <data>0</data>
+      <data>0</data>
+      <data>0</data>
     </sdata>
    </sprite>
   <sprite>
@@ -40,34 +40,34 @@
     <links></links>
     <include>True</include>
     <multi>True</multi>
-    <spbkgnd>12</spbkgnd>
-    <spcolour>5</spcolour>
+    <spbkgnd>1</spbkgnd>
+    <spcolour>14</spcolour>
     <mcolour1>0</mcolour1>
-    <mcolour2>1</mcolour2>
+    <mcolour2>7</mcolour2>
     <expandx>False</expandx>
     <expandy>False</expandy>
     <sdata>
       <data>0</data>
-      <data>192</data>
-      <data>787440</data>
-      <data>4129648</data>
-      <data>3605360</data>
-      <data>3605488</data>
-      <data>895424</data>
-      <data>453184</data>
-      <data>453184</data>
-      <data>699008</data>
-      <data>436800</data>
-      <data>371008</data>
-      <data>677504</data>
-      <data>699008</data>
-      <data>436800</data>
-      <data>349504</data>
-      <data>87040</data>
-      <data>17408</data>
-      <data>1065984</data>
-      <data>1328208</data>
-      <data>345424</data>
+      <data>0</data>
+      <data>0</data>
+      <data>0</data>
+      <data>131072</data>
+      <data>688128</data>
+      <data>163840</data>
+      <data>40960</data>
+      <data>8192</data>
+      <data>86016</data>
+      <data>489216</data>
+      <data>488704</data>
+      <data>86016</data>
+      <data>0</data>
+      <data>0</data>
+      <data>0</data>
+      <data>0</data>
+      <data>0</data>
+      <data>0</data>
+      <data>0</data>
+      <data>0</data>
     </sdata>
    </sprite>
     <!-- Scratchpad data -->

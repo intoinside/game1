@@ -30,17 +30,19 @@ IncAsm "routine.asm"
     STA BACKGROUND_COLOR    ;Char Multicolour 3
 
 ; setup sprite
-    lda #$03
+    lda #%00000101
     sta SPRITE_ENABLE
     sta SPRITE_MULTICOLOR   ;turn on the multicolor mode
     lda #$00
     sta SPRITE_EXTRA_COLOR1 ; multicolor1
-    lda #$01
+    lda #$07
     sta SPRITE_EXTRA_COLOR2 ; multicolor2
     lda #$05
     sta SPRITE_0_COLOR      ; sprite 0 color
     lda #$05
-    sta SPRITE_1_COLOR      ; sprite 0 color
+    sta SPRITE_1_COLOR      ; sprite 1 color
+    lda #$0E
+    sta SPRITE_2_COLOR      ; sprite 2 color
     lda #$80
     sta SPRITE_0_X          ;set the horizontal position
     lda #$d2
@@ -49,6 +51,10 @@ IncAsm "routine.asm"
     sta SPRITE_1_X          ;set the horizontal position
     lda #$d3
     sta SPRITE_1_Y          ;set the vertical position 
+    lda #$9F
+    sta SPRITE_2_X          ;set the horizontal position
+    lda #$43
+    sta SPRITE_2_Y          ;set the vertical position 
 
     jsr loadsprites
 
@@ -105,3 +111,4 @@ incbin "cols.bin"
 
 *=$3000
 incbin "frog.spt",1,2, true
+incbin "bee.spt",1,2, true
