@@ -44,6 +44,7 @@
         <FileName>main.asm</FileName>
         <FileName>label.asm</FileName>
         <FileName>sprites.asm</FileName>
+        <FileName>routine.asm</FileName>
     </BuildList>
     <DetermineBuildOrder>0</DetermineBuildOrder>
     <PaddingByte>0</PaddingByte>
@@ -76,6 +77,17 @@
         </SourceFile>
         <SourceFile>
             <Name>main.asm</Name>
+            <PrgName />
+            <FileType>2</FileType>
+            <IncludeInBuild>True</IncludeInBuild>
+            <Regions />
+            <Breakpoints />
+            <Bookmarks />
+            <Topmost>False</Topmost>
+            <FileOpen>True</FileOpen>
+        </SourceFile>
+        <SourceFile>
+            <Name>routine.asm</Name>
             <PrgName />
             <FileType>2</FileType>
             <IncludeInBuild>True</IncludeInBuild>

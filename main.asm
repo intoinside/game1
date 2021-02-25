@@ -8,6 +8,7 @@
 
 IncAsm "label.asm"
 IncAsm "sprites.asm"
+IncAsm "routine.asm"
 
 
 *=$0900
@@ -48,6 +49,7 @@ IncAsm "sprites.asm"
     sta SPRITE_1_X          ;set the horizontal position
     lda #$d3
     sta SPRITE_1_Y          ;set the vertical position 
+
     jsr loadsprites
 
 
@@ -55,7 +57,7 @@ IncAsm "sprites.asm"
 ;NOTE max 256 chars per location ($0400-$04FF, $0500-$05ff,
 ;$0600,$06ff,$0700,$07e8)
     LDX #$00
-DRAWSCRN
+drawscrn
     LDA MATRIX,X        ;Get data from map
     STA $0400,X         ;Put data into SCREEN RAM
     LDA MATRIX+$100,X   ;Fetch the next 256 bytes of data from binary
@@ -65,11 +67,11 @@ DRAWSCRN
     LDA MATRIX+$2E8,X
     STA $06E8,X
     INX                 ;Increment accumulator until 256 bytes read
-    BNE DRAWSCRN
+    BNE drawscrn
 
 ;Draw attributes from 256 bytes attribs table and place these to SCREEN RAM
     LDX #$00
-PAINTCOLS
+paintcols
     LDY SCREEN_RAM,X    ;Read screen position
     LDA ATTRIBS,Y       ;Read attributes table
     STA $D800,X         ;Store to COLOUR RAM
@@ -83,9 +85,10 @@ PAINTCOLS
     LDA ATTRIBS,Y
     STA $DAE8,X
     INX                 ;Increment accumulator until 256 bytes read
-    BNE PAINTCOLS
+    BNE paintcols
 
-    JMP *               ;Infinite loop
+    JMP scan_joystick
+    ;JMP *               ;Infinite loop
 
 ;If using a cross assembler use CORRECT pseudo command,
 ;offset for importing binary data
