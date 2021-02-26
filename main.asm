@@ -3,14 +3,12 @@
 ; 10 SYS (2816)
 *=$0801
 
-    BYTE $0E, $08, $0A, $00, $9E, $20, $28, $32
-    BYTE $38, $31, $36, $29, $00, $00, $00
+    BYTE $0E, $08, $0A, $00, $9E, $20, $28, $34
+    BYTE $30, $39, $36, $29, $00, $00, $00
 
-IncAsm "label.asm"
 IncAsm "sprites.asm"
-IncAsm "routine.asm"
 
-*=$0b00
+*=$1000
         jsr init_screen
 
         jsr init_sprites
@@ -77,6 +75,9 @@ paintcols
         inx                 ;Increment accumulator until 256 bytes read
         bne paintcols
         rts
+
+IncAsm "routine.asm"
+IncAsm "label.asm"
 
 
 ;If using a cross assembler use CORRECT pseudo command,

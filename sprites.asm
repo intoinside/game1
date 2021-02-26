@@ -31,8 +31,8 @@ scan_joystick
 TODO remove wait, add sync with interrupt
         jsr wait_routine
 
-;        jsr write_debug_is_jumping
-;        jsr write_debug_is_falling
+;        jsr write_debug_is_jumping ; can be used to draw is_jumping runtime value
+;        jsr write_debug_is_falling ; can be used to draw is_falling runtime value
 
         jsr perform_jump
         jsr perform_fall
@@ -156,11 +156,13 @@ is_falling  byte $00
 ;        cmp #0
 ;        beq is_jumping_not_0
 ;        lda #$31
-;        sta $0590
+;        sta $0400
+;        lda #$00
+;        sta $D800
 ;        rts
 ;is_jumping_not_0
 ;        lda #$30
-;        sta $0590
+;        sta $0400
 ;        rts
 
 ;write_debug_is_falling
@@ -168,11 +170,13 @@ is_falling  byte $00
 ;        cmp #0
 ;        beq is_falling_not_0
 ;        lda #$31
-;        sta $0600
+;        sta $0428
+;        lda #$00
+;        sta $D828
 ;        rts
 ;is_falling_not_0
 ;        lda #$30
-;        sta $0600
+;        sta $0428
 ;        rts
 
 
