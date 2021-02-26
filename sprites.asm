@@ -1,18 +1,31 @@
 ; sprite routine
 
-loadsprites
-;sprite 0
-        lda            #$C0     ; Sprite 0 - frog
-        sta            $07f8
-
-;sprite 1
-        lda            #$C2     ; Sprite 2 - bee
-        sta            $07fA
-
+init_sprites
+        lda #$C0     ; Sprite 0 - frog
+        sta $07f8
+        lda #$C2     ; Sprite 2 - bee
+        sta $07fA
+        lda #%00000101
+        sta SPRITE_ENABLE
+        sta SPRITE_MULTICOLOR   ;turn on the multicolor mode
+        lda #$00
+        sta SPRITE_EXTRA_COLOR1 ; multicolor1
+        lda #$07
+        sta SPRITE_EXTRA_COLOR2 ; multicolor2
+        lda #$05
+        sta SPRITE_0_COLOR      ; sprite 0 color
+        lda #$0E
+        sta SPRITE_2_COLOR      ; sprite 2 color
+        lda #$80
+        sta SPRITE_0_X          ;set the horizontal position
+        lda #$d2
+        sta SPRITE_0_Y          ;set the vertical position 
+        lda #$4F
+        sta SPRITE_2_X          ;set the horizontal position
+        lda #$83
+        sta SPRITE_2_Y          ;set the vertical position 
         rts
 
-is_jumping  byte $00
-is_falling  byte $00
 
 scan_joystick    
 TODO remove wait, add sync with interrupt
@@ -55,7 +68,7 @@ djr3    lsr           ; dy=0 (move down screen), dy=0 (no y change).
                       ; if c=0 then pressed.
 
 up_to_scan_joystick
-        JMP scan_joystick
+        jmp scan_joystick
 
 up_pressed
         ldx is_jumping
@@ -67,34 +80,31 @@ up_pressed
 
 TODO check reaching visible border
 le_pressed
-        LDX SPRITE_0_X
-        CPX #0          ; maybe reached left boundary
-        BEQ LEFT_CHECKMSBX
-        DEX
-        DEX
-        STX SPRITE_0_X
+        ldx SPRITE_0_X
+        cpx #0          ; maybe reached left boundary
+        beq LEFT_CHECKMSBX
+        dex
+        stx SPRITE_0_X
         jmp scan_joystick
 
 left_checkmsbx
-        LDA SPRITE_MSBX
-        CMP #0
-        BEQ up_to_scan_joystick        ; left bounday reached
-        DEC SPRITE_MSBX
-        DEX
-        DEX
-        STX SPRITE_0_X
+        lda SPRITE_MSBX
+        cmp #0
+        beq up_to_scan_joystick        ; left bounday reached
+        dec SPRITE_MSBX
+        dex
+        stx SPRITE_0_X
         jmp scan_joystick
 
 TODO check reaching visible border
 ri_pressed
-        LDX SPRITE_0_X
-        INX
-        INX
-        STX SPRITE_0_X
-        CPX #254
-        BNE up_to_scan_joystick
-        LDA #1
-        STA SPRITE_MSBX
+        ldx SPRITE_0_X
+        inx
+        stx SPRITE_0_X
+        cpx #254
+        bne up_to_scan_joystick
+        lda #1
+        sta SPRITE_MSBX
         jmp scan_joystick
 
 
@@ -138,6 +148,8 @@ stop_fall
         stx is_falling
         rts
 
+is_jumping  byte $00
+is_falling  byte $00
 
 ;write_debug_is_jumping
 ;        lda is_jumping
