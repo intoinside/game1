@@ -54,7 +54,7 @@
     <!--End of screen designer settings-->
     <SourceFiles>
         <SourceFile>
-            <Name>bee.spt</Name>
+            <Name>fly.spt</Name>
             <PrgName />
             <FileType>7</FileType>
             <IncludeInBuild>True</IncludeInBuild>
@@ -94,7 +94,7 @@
             <Regions />
             <Breakpoints />
             <Bookmarks />
-            <Topmost>False</Topmost>
+            <Topmost>True</Topmost>
             <FileOpen>True</FileOpen>
         </SourceFile>
         <SourceFile>

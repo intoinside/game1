@@ -51,13 +51,12 @@ IncAsm "routine.asm"
     sta SPRITE_1_X          ;set the horizontal position
     lda #$d3
     sta SPRITE_1_Y          ;set the vertical position 
-    lda #$9F
+    lda #$4F
     sta SPRITE_2_X          ;set the horizontal position
-    lda #$43
+    lda #$83
     sta SPRITE_2_Y          ;set the vertical position 
 
     jsr loadsprites
-
 
 ;Draw main screen from matrix -
 ;NOTE max 256 chars per location ($0400-$04FF, $0500-$05ff,
@@ -94,7 +93,7 @@ paintcols
     BNE paintcols
 
     JMP scan_joystick
-    ;JMP *               ;Infinite loop
+
 
 ;If using a cross assembler use CORRECT pseudo command,
 ;offset for importing binary data
@@ -111,4 +110,4 @@ incbin "cols.bin"
 
 *=$3000
 incbin "frog.spt",1,2, true
-incbin "bee.spt",1,2, true
+incbin "fly.spt",1,2, true

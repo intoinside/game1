@@ -11,9 +11,18 @@ loadsprites
 
         rts
 
+is_jumping  byte $00
+is_falling  byte $00
+
 scan_joystick    
 TODO remove wait, add sync with interrupt
         jsr wait_routine
+
+;        jsr write_debug_is_jumping
+;        jsr write_debug_is_falling
+
+        jsr perform_jump
+        jsr perform_fall
 
 TODO add support for multiple direction
 djrr    lda $dc00     ; get input from port 2 only
@@ -26,7 +35,7 @@ djrrb   ldy #0        ; this routine reads and decodes the
 djr0    lsr           ; produces a zero bit. if a switch is open then
         bcs djr1      ; it produces a one bit. The joystick dir-
         iny           ; ections are right, left, forward, backward
-        jmp do_pressed
+        jmp scan_joystick
 djr1    lsr           ; bit3=right, bit2=left, bit1=backward,
         bcs djr2      ; bit0=forward and bit4=fire button.
         dex           ; at rts time dx and dy contain 2's compliment
@@ -44,19 +53,17 @@ djr3    lsr           ; dy=0 (move down screen), dy=0 (no y change).
                       ; at rts time the carry flag contains the fire
                       ; button state. if c=1 then button not pressed.
                       ; if c=0 then pressed.
-        JMP scan_joystick
-        
-up_pressed
-        LDY SPRITE_0_Y
-        DEY
-        STY SPRITE_0_Y
+
+up_to_scan_joystick
         JMP scan_joystick
 
-do_pressed
-        LDY SPRITE_0_Y
-        INY
-        STY SPRITE_0_Y
-        JMP scan_joystick
+up_pressed
+        ldx is_jumping
+        cpx #0
+        bne up_to_scan_joystick
+        ldx #1
+        stx is_jumping
+        jmp scan_joystick
 
 TODO check reaching visible border
 le_pressed
@@ -66,17 +73,17 @@ le_pressed
         DEX
         DEX
         STX SPRITE_0_X
-        JMP scan_joystick
+        jmp scan_joystick
 
 left_checkmsbx
         LDA SPRITE_MSBX
         CMP #0
-        BEQ scan_joystick        ; left bounday reached
+        BEQ up_to_scan_joystick        ; left bounday reached
         DEC SPRITE_MSBX
         DEX
         DEX
         STX SPRITE_0_X
-        JMP scan_joystick
+        jmp scan_joystick
 
 TODO check reaching visible border
 ri_pressed
@@ -85,7 +92,75 @@ ri_pressed
         INX
         STX SPRITE_0_X
         CPX #254
-        BNE scan_joystick
+        BNE up_to_scan_joystick
         LDA #1
         STA SPRITE_MSBX
-        JMP scan_joystick
+        jmp scan_joystick
+
+
+perform_jump
+        ldx is_falling
+        cpx #1
+        beq stop_jump
+        ldx is_jumping
+        cpx #0
+        beq perform_no_jump
+        ldy SPRITE_0_Y
+        cpy #$c0
+        bcc stop_jump
+        dey
+        sty SPRITE_0_Y
+perform_no_jump
+        rts
+stop_jump
+        ldx #0
+        stx is_jumping
+        ldx #1
+        stx is_falling
+        rts
+
+perform_fall
+        ldx is_jumping
+        cpx #1
+        beq perform_no_fall
+        ldx is_falling
+        cpx #0
+        beq perform_no_fall
+        ldy SPRITE_0_Y
+        cpy #$d2
+        bcs stop_fall
+        iny
+        sty SPRITE_0_Y
+perform_no_fall        
+        rts
+stop_fall
+        ldx #0
+        stx is_falling
+        rts
+
+
+;write_debug_is_jumping
+;        lda is_jumping
+;        cmp #0
+;        beq is_jumping_not_0
+;        lda #$31
+;        sta $0590
+;        rts
+;is_jumping_not_0
+;        lda #$30
+;        sta $0590
+;        rts
+
+;write_debug_is_falling
+;        lda is_falling
+;        cmp #0
+;        beq is_falling_not_0
+;        lda #$31
+;        sta $0600
+;        rts
+;is_falling_not_0
+;        lda #$30
+;        sta $0600
+;        rts
+
+
