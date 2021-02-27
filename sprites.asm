@@ -1,11 +1,13 @@
 ; sprite routine
 
 init_sprites
-        lda #$C0     ; Sprite 0 - frog
+        lda #$C0     ; Sprite 0 - frog (frame 0)
         sta $07f8
+        lda #$C1     ; Sprite 1 - frog (frame 1)
+        sta $07f9
         lda #$C2     ; Sprite 2 - bee
         sta $07fA
-        lda #%00000101
+        lda #%00000111
         sta SPRITE_ENABLE
         sta SPRITE_MULTICOLOR   ;turn on the multicolor mode
         lda #$00
@@ -14,12 +16,18 @@ init_sprites
         sta SPRITE_EXTRA_COLOR2 ; multicolor2
         lda #$05
         sta SPRITE_0_COLOR      ; sprite 0 color
+        lda #$05
+        sta SPRITE_1_COLOR      ; sprite 1 color
         lda #$0E
         sta SPRITE_2_COLOR      ; sprite 2 color
         lda #$80
         sta SPRITE_0_X          ;set the horizontal position
         lda #$d2
         sta SPRITE_0_Y          ;set the vertical position 
+        lda #$80
+        sta SPRITE_1_X          ;set the horizontal position
+        lda #$d2
+        sta SPRITE_1_Y          ;set the vertical position 
         lda #$4F
         sta SPRITE_2_X          ;set the horizontal position
         lda #$83
@@ -80,11 +88,13 @@ up_pressed
 
 TODO check reaching visible border
 le_pressed
+        jsr switch_sprite
         ldx SPRITE_0_X
         cpx #0          ; maybe reached left boundary
-        beq LEFT_CHECKMSBX
+        beq left_checkmsbx
         dex
         stx SPRITE_0_X
+        stx SPRITE_1_X
         jmp scan_joystick
 
 left_checkmsbx
@@ -94,19 +104,43 @@ left_checkmsbx
         dec SPRITE_MSBX
         dex
         stx SPRITE_0_X
+        stx SPRITE_1_X
         jmp scan_joystick
 
 TODO check reaching visible border
 ri_pressed
+        jsr switch_sprite
         ldx SPRITE_0_X
         inx
         stx SPRITE_0_X
+        stx SPRITE_1_X
         cpx #254
         bne up_to_scan_joystick
         lda #1
         sta SPRITE_MSBX
         jmp scan_joystick
 
+
+switch_sprite
+        ldx current_sprite
+        inx
+        cpx #$0b
+        beq switch_sprite_0
+        cpx #$16
+        beq switch_sprite_1
+        stx current_sprite
+        rts
+switch_sprite_0
+        lda #%00000110
+        sta SPRITE_ENABLE
+        stx current_sprite
+        rts     
+switch_sprite_1
+        lda #%00000101
+        sta SPRITE_ENABLE
+        ldx #0
+        stx current_sprite
+        rts     
 
 perform_jump
         ldx is_falling
@@ -120,6 +154,7 @@ perform_jump
         bcc stop_jump
         dey
         sty SPRITE_0_Y
+        sty SPRITE_1_Y
 perform_no_jump
         rts
 stop_jump
@@ -141,6 +176,7 @@ perform_fall
         bcs stop_fall
         iny
         sty SPRITE_0_Y
+        sty SPRITE_1_Y
 perform_no_fall        
         rts
 stop_fall
@@ -148,8 +184,9 @@ stop_fall
         stx is_falling
         rts
 
-is_jumping  byte $00
-is_falling  byte $00
+is_jumping  byte    $00
+is_falling  byte    $00
+current_sprite byte $00
 
 ;write_debug_is_jumping
 ;        lda is_jumping

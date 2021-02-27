@@ -10,9 +10,10 @@ This game is born as a personal experiment to learn C64 assembly language. The e
 
 More feature to come...
 
-I've used CBM .prg Studio ([main site](https://www.ajordison.co.uk/)).
+I've used CBM .prg Studio ([download](https://www.ajordison.co.uk/download.html)).
 
 ## References
-* CBM .prg Studio ([download](https://www.ajordison.co.uk/download.html))
+* CBM .prg Studio ([main site](https://www.ajordison.co.uk/))
 * Commodore 64 memory map ([here](https://sta.c64.org/cbm64mem.html))
 * C64 Brain ([here](https://www.c64brain.com/))
+* Codebase64 ([here](https://codebase64.org))
