@@ -1,14 +1,14 @@
 !TO "DISPLAYCHARPADBINARIES.PRG,CBM
 
-; 10 SYS (2816)
+; 10 SYS (2304)
 *=$0801
 
-    BYTE $0E, $08, $0A, $00, $9E, $20, $28, $34
-    BYTE $30, $39, $36, $29, $00, $00, $00
+    BYTE $0E, $08, $0A, $00, $9E, $20, $28, $32
+    BYTE $33, $30, $34, $29, $00, $00, $00
+IncAsm "routine.asm"
+IncAsm "label.asm"
 
-IncAsm "sprites.asm"
-
-*=$1000
+*=$0900
         jsr init_screen
 
         jsr init_sprites
@@ -76,8 +76,7 @@ paintcols
         bne paintcols
         rts
 
-IncAsm "routine.asm"
-IncAsm "label.asm"
+IncAsm "sprites.asm"
 
 
 ;If using a cross assembler use CORRECT pseudo command,
@@ -96,3 +95,4 @@ incbin "cols.bin"
 *=$3000
 incbin "frog.spt",1,2, true
 incbin "fly.spt",1,2, true
+

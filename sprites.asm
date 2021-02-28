@@ -2,13 +2,13 @@
 
 init_sprites
         lda #$C0     ; Sprite 0 - frog (frame 0)
-        sta $07f8
+        sta SPRITE_PTR
         lda #$C1     ; Sprite 0 - frog (frame 1)
-        sta $07f9
+        sta SPRITE_PTR + 1
         lda #$C2     ; Sprite 1 - fly (frame 0)
-        sta $07fA
+        sta SPRITE_PTR + 2
         lda #$C3     ; Sprite 1 - fly (frame 1)
-        sta $07fB
+        sta SPRITE_PTR + 3
         lda #%00001111
         sta SPRITE_ENABLE
         sta SPRITE_MULTICOLOR   ;turn on the multicolor mode
@@ -18,28 +18,22 @@ init_sprites
         sta SPRITE_EXTRA_COLOR2 ; multicolor2
         lda #$05
         sta SPRITE_0_COLOR      ; sprite 0 color
-        lda #$05
         sta SPRITE_1_COLOR      ; sprite 1 color
         lda #$0E
         sta SPRITE_2_COLOR      ; sprite 2 color
-        lda #$0E
         sta SPRITE_3_COLOR      ; sprite 2 color
         lda #$80
         sta SPRITE_0_X          ;set the horizontal position
+        sta SPRITE_1_X
         lda #$d2
         sta SPRITE_0_Y          ;set the vertical position 
-        lda #$80
-        sta SPRITE_1_X          ;set the horizontal position
-        lda #$d2
-        sta SPRITE_1_Y          ;set the vertical position 
+        sta SPRITE_1_Y
         lda #$4F
-        sta SPRITE_2_X          ;set the horizontal position
+        sta SPRITE_2_X
+        sta SPRITE_3_X
         lda #$83
-        sta SPRITE_2_Y          ;set the vertical position 
-        lda #$4F
-        sta SPRITE_3_X          ;set the horizontal position
-        lda #$83
-        sta SPRITE_3_Y          ;set the vertical position 
+        sta SPRITE_2_Y
+        sta SPRITE_3_Y
         rts
 
 
