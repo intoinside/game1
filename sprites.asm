@@ -61,7 +61,8 @@ left_checkmsbx
         lda SPRITE_MSBX
         cmp #0
         beq up_to_scan_joystick        ; left bounday reached
-        dec SPRITE_MSBX
+        lda #0
+        sta SPRITE_MSBX
         dex
         stx SPRITE_0_X
         stx SPRITE_1_X
@@ -74,9 +75,9 @@ ri_pressed
         inx
         stx SPRITE_0_X
         stx SPRITE_1_X
-        cpx #254
+        cpx #255
         bne up_to_scan_joystick
-        lda #1
+        lda #%00000011
         sta SPRITE_MSBX
         jmp up_to_scan_joystick
 
