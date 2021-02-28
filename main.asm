@@ -5,20 +5,31 @@
 
     BYTE $0E, $08, $0A, $00, $9E, $20, $28, $32
     BYTE $33, $30, $34, $29, $00, $00, $00
-IncAsm "routine.asm"
-IncAsm "label.asm"
+
 
 *=$0900
         jsr init_screen
+        jsr init_map
+        jsr init_char_color
+        jsr print_ui
 
         jsr init_sprites
 
-        jsr init_map
+main_loop
+TODO remove wait, add sync with interrupt
+        jsr wait_routine
+        jsr switch_sprite_fly
 
-        jsr init_char_color
+        jsr scan_joystick
 
-        jmp scan_joystick
+;        jsr write_debug_is_jumping ; can be used to draw is_jumping runtime value
+;        jsr write_debug_is_falling ; can be used to draw is_falling runtime value
 
+        jsr perform_jump
+        jsr perform_fall
+        jmp main_loop
+
+; main application rountine
 init_screen
         sei
         lda #$37
@@ -76,8 +87,30 @@ paintcols
         bne paintcols
         rts
 
-IncAsm "sprites.asm"
+score_string    text 'PUNTEGGIO: '
 
+print_ui  
+        ldx #$00         
+loop_text  
+        lda score_string,x
+        sta SCREEN_RAM,x
+        inx 
+        cpx #$0b
+        bne loop_text
+        ldx #$00
+loop_color  
+        lda #00
+        sta $d800,x
+        inx 
+        cpx #$0b
+        bne loop_color
+        rts
+
+
+IncAsm "sprites.asm"
+IncAsm "joystick.asm"
+IncAsm "routine.asm"
+IncAsm "label.asm"
 
 ;If using a cross assembler use CORRECT pseudo command,
 ;offset for importing binary data
