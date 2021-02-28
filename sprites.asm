@@ -3,11 +3,13 @@
 init_sprites
         lda #$C0     ; Sprite 0 - frog (frame 0)
         sta $07f8
-        lda #$C1     ; Sprite 1 - frog (frame 1)
+        lda #$C1     ; Sprite 0 - frog (frame 1)
         sta $07f9
-        lda #$C2     ; Sprite 2 - bee
+        lda #$C2     ; Sprite 1 - fly (frame 0)
         sta $07fA
-        lda #%00000111
+        lda #$C3     ; Sprite 1 - fly (frame 1)
+        sta $07fB
+        lda #%00001111
         sta SPRITE_ENABLE
         sta SPRITE_MULTICOLOR   ;turn on the multicolor mode
         lda #$00
@@ -20,6 +22,8 @@ init_sprites
         sta SPRITE_1_COLOR      ; sprite 1 color
         lda #$0E
         sta SPRITE_2_COLOR      ; sprite 2 color
+        lda #$0E
+        sta SPRITE_3_COLOR      ; sprite 2 color
         lda #$80
         sta SPRITE_0_X          ;set the horizontal position
         lda #$d2
@@ -32,12 +36,17 @@ init_sprites
         sta SPRITE_2_X          ;set the horizontal position
         lda #$83
         sta SPRITE_2_Y          ;set the vertical position 
+        lda #$4F
+        sta SPRITE_3_X          ;set the horizontal position
+        lda #$83
+        sta SPRITE_3_Y          ;set the vertical position 
         rts
 
 
 scan_joystick    
 TODO remove wait, add sync with interrupt
         jsr wait_routine
+        jsr switch_sprite_fly
 
 ;        jsr write_debug_is_jumping ; can be used to draw is_jumping runtime value
 ;        jsr write_debug_is_falling ; can be used to draw is_falling runtime value
@@ -88,7 +97,7 @@ up_pressed
 
 TODO check reaching visible border
 le_pressed
-        jsr switch_sprite
+        jsr switch_sprite_frog
         ldx SPRITE_0_X
         cpx #0          ; maybe reached left boundary
         beq left_checkmsbx
@@ -109,7 +118,7 @@ left_checkmsbx
 
 TODO check reaching visible border
 ri_pressed
-        jsr switch_sprite
+        jsr switch_sprite_frog
         ldx SPRITE_0_X
         inx
         stx SPRITE_0_X
@@ -121,26 +130,55 @@ ri_pressed
         jmp scan_joystick
 
 
-switch_sprite
-        ldx current_sprite
+switch_sprite_frog
+        ldx current_frame_frog
         inx
         cpx #$0b
-        beq switch_sprite_0
+        beq switch_sprite_frog_0
         cpx #$16
-        beq switch_sprite_1
-        stx current_sprite
+        beq switch_sprite_frog_1
+        stx current_frame_frog
         rts
-switch_sprite_0
-        lda #%00000110
+switch_sprite_frog_0
+        lda SPRITE_ENABLE
+        and #%11111110
+        ora #%00000010
         sta SPRITE_ENABLE
-        stx current_sprite
+        stx current_frame_frog
         rts     
-switch_sprite_1
-        lda #%00000101
+switch_sprite_frog_1
+        lda SPRITE_ENABLE
+        and #%11111101
+        ora #%00000001
         sta SPRITE_ENABLE
         ldx #0
-        stx current_sprite
+        stx current_frame_frog
         rts     
+
+switch_sprite_fly
+        ldx current_frame_fly
+        inx
+        cpx #$04
+        beq switch_sprite_fly_0
+        cpx #$08
+        beq switch_sprite_fly_1
+        stx current_frame_fly
+        rts
+switch_sprite_fly_0
+        lda SPRITE_ENABLE
+        and #%11110111
+        ora #%00000100
+        sta SPRITE_ENABLE
+        stx current_frame_fly
+        rts     
+switch_sprite_fly_1
+        lda SPRITE_ENABLE
+        and #%11111011
+        ora #%00001000
+        sta SPRITE_ENABLE
+        ldx #0
+        stx current_frame_fly
+        rts
 
 perform_jump
         ldx is_falling
@@ -184,9 +222,10 @@ stop_fall
         stx is_falling
         rts
 
-is_jumping  byte    $00
-is_falling  byte    $00
-current_sprite byte $00
+is_jumping          byte    $00
+is_falling          byte    $00
+current_frame_frog  byte    $00
+current_frame_fly   byte    $00
 
 ;write_debug_is_jumping
 ;        lda is_jumping
