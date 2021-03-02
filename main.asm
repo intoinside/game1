@@ -16,14 +16,13 @@
         jsr init_sprites
 
 main_loop
-TODO remove wait, add sync with interrupt
         jsr wait_routine
         jsr switch_sprite_fly
 
-        jsr scan_joystick
+        jsr fly_update_position
+        jsr CHECK_PLR_COLLISION
 
-;        jsr write_debug_is_jumping ; can be used to draw is_jumping runtime value
-;        jsr write_debug_is_falling ; can be used to draw is_falling runtime value
+        jsr scan_joystick
 
         jsr perform_jump
         jsr perform_fall
@@ -107,11 +106,6 @@ loop_color
         rts
 
 
-IncAsm "sprites.asm"
-IncAsm "joystick.asm"
-IncAsm "routine.asm"
-IncAsm "label.asm"
-
 ;If using a cross assembler use CORRECT pseudo command,
 ;offset for importing binary data
 *=$2000
@@ -129,3 +123,10 @@ incbin "cols.bin"
 incbin "frog.spt",1,2, true
 incbin "fly.spt",1,2, true
 
+IncAsm "label.asm"
+IncAsm "sprites.asm"
+IncAsm "frog.asm"
+IncAsm "fly.asm"
+IncAsm "collision.asm"
+IncAsm "joystick.asm"
+IncAsm "routine.asm"
