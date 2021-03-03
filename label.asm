@@ -1,6 +1,8 @@
 shape byte $fe 
 counter byte 0 ; * = $3f80
 
+RND_GENERATOR = $d41b
+
 SCREEN_RAM = $0400
 
 SCREEN_CTRL = $d016
@@ -30,6 +32,6 @@ SPRITE_1_COLOR = $d028
 SPRITE_2_COLOR = $d029
 SPRITE_3_COLOR = $d02a
 
-SPRITE_MSBX    = $d010
+SPRITE_MSBX = $d010
 
 SPRITE_PTR = $07f8

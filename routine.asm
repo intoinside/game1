@@ -9,6 +9,20 @@ VBLANKWAITHIGH
         bmi VBLANKWAITHIGH
         rts
 
+init_random_generator
+        lda #$ff  ; maximum frequency value
+        sta $d40e ; voice 3 frequency low byte
+        sta $d40f ; voice 3 frequency high byte
+        lda #$80  ; noise waveform, gate bit off
+        sta $d412 ; voice 3 control register
+        rts
+
+get_random_number
+        lda RND_GENERATOR ; get random value from 0-255
+        cmp #$02
+        bcs get_random_number
+        adc #$02
+        rts
 
 ;write_debug_current_frame_frog
 ;        lda current_frame_frog

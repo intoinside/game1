@@ -11,7 +11,7 @@ CHECK_PLR_COLLISION_EXIT
 CHECK_PLR_SPRITE_01
     cpx #$01                            ; Check if sprite X is in "collision area"
     bne CHECK_PLR_SPRITE_02             ; No -> check next sprite
-    inc $d020
+
 ;   Do something here...
     rts
 CHECK_PLR_SPRITE_02
@@ -53,7 +53,7 @@ CHECK_PLR_SPRITE_EXIT
 ; From $01 enemies sprites.
 ;-------------------
 SPR_COLL_DETECT
-    inc $d020
+    jsr start_fly_eat
     ldx #$07
 SPR_COLL_LOOP
     lda SPRITE_0_Y,X                       ; Load Enemy Y position

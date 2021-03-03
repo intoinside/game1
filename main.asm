@@ -8,6 +8,7 @@
 
 
 *=$0900
+        jsr init_random_generator
         jsr init_screen
         jsr init_map
         jsr init_char_color
@@ -17,15 +18,17 @@
 
 main_loop
         jsr wait_routine
-        jsr switch_sprite_fly
 
+        jsr fly_eaten
+        jsr switch_sprite_fly
         jsr fly_update_position
         jsr CHECK_PLR_COLLISION
 
-        jsr scan_joystick
-
         jsr perform_jump
         jsr perform_fall
+
+        jsr scan_joystick
+
         jmp main_loop
 
 ; main application rountine
@@ -105,9 +108,7 @@ loop_color
         bne loop_color
         rts
 
-
-;If using a cross assembler use CORRECT pseudo command,
-;offset for importing binary data
+; Resources and includes
 *=$2000
 incbin "charset.bin"
 
@@ -121,7 +122,7 @@ incbin "cols.bin"
 
 *=$3000
 incbin "frog.spt",1,2, true
-incbin "fly.spt",1,2, true
+incbin "fly.spt",1,5, true
 
 IncAsm "label.asm"
 IncAsm "sprites.asm"
