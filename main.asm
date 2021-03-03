@@ -122,7 +122,7 @@ incbin "cols.bin"
 
 *=$3000
 incbin "frog.spt",1,2, true
-incbin "fly.spt",1,5, true
+incbin "fly.spt",1,7, true
 
 IncAsm "label.asm"
 IncAsm "sprites.asm"

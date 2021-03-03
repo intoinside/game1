@@ -87,6 +87,76 @@
       <data>0</data>
       <data>0</data>
       <data>0</data>
+      <data>512</data>
+      <data>10880</data>
+      <data>43520</data>
+      <data>32768</data>
+      <data>21504</data>
+      <data>873728</data>
+      <data>349440</data>
+      <data>87040</data>
+      <data>332032</data>
+      <data>0</data>
+      <data>0</data>
+      <data>0</data>
+      <data>0</data>
+      <data>0</data>
+      <data>0</data>
+      <data>0</data>
+    </sdata>
+   </sprite>
+  <sprite>
+    <description></description>
+    <links></links>
+    <include>True</include>
+    <multi>True</multi>
+    <spbkgnd>1</spbkgnd>
+    <spcolour>14</spcolour>
+    <mcolour1>0</mcolour1>
+    <mcolour2>7</mcolour2>
+    <expandx>False</expandx>
+    <expandy>False</expandy>
+    <sdata>
+      <data>0</data>
+      <data>0</data>
+      <data>0</data>
+      <data>0</data>
+      <data>2048</data>
+      <data>10752</data>
+      <data>10240</data>
+      <data>40960</data>
+      <data>32768</data>
+      <data>21504</data>
+      <data>873728</data>
+      <data>349440</data>
+      <data>87040</data>
+      <data>332032</data>
+      <data>0</data>
+      <data>0</data>
+      <data>0</data>
+      <data>0</data>
+      <data>0</data>
+      <data>0</data>
+      <data>0</data>
+    </sdata>
+   </sprite>
+  <sprite>
+    <description></description>
+    <links></links>
+    <include>True</include>
+    <multi>True</multi>
+    <spbkgnd>1</spbkgnd>
+    <spcolour>14</spcolour>
+    <mcolour1>0</mcolour1>
+    <mcolour2>7</mcolour2>
+    <expandx>False</expandx>
+    <expandy>False</expandy>
+    <sdata>
+      <data>0</data>
+      <data>0</data>
+      <data>0</data>
+      <data>0</data>
+      <data>0</data>
       <data>0</data>
       <data>163840</data>
       <data>40960</data>

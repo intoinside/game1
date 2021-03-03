@@ -30,26 +30,21 @@ fly_eaten_frame_impl
         cpx #$20
         beq fly_eaten_3
         cpx #$30
-        beq fly_eaten_4
-        cpx #$40
         bcs fly_eaten_hide_sprite
         rts
 fly_eaten_1
-        lda #$c3
-        sta SPRITE_PTR + 1
-        rts
-fly_eaten_2
-        lda #$c4
-        sta SPRITE_PTR + 1
-        rts
-fly_eaten_3
-        lda #$c5
-        sta SPRITE_PTR + 1
-        rts
-fly_eaten_4
         lda #$c6
         sta SPRITE_PTR + 1
         rts
+fly_eaten_2
+        lda #$c7
+        sta SPRITE_PTR + 1
+        rts
+fly_eaten_3
+        lda #$c8
+        sta SPRITE_PTR + 1
+        rts
+
 fly_eaten_hide_sprite
         ldx #$ff
         stx fly_eaten_frame
@@ -66,7 +61,7 @@ fly_update_position
 fly_wait_for_update_position
         ldx fly_wait_for_position
         inc fly_wait_for_position
-        cpx #$ff
+        cpx #$9f
         bne fly_update_position_impl
         jmp fly_update_position_reset
 fly_update_position_impl

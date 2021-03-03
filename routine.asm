@@ -19,9 +19,9 @@ init_random_generator
 
 get_random_number
         lda RND_GENERATOR ; get random value from 0-255
-        cmp #$02
+        cmp #$03
         bcs get_random_number
-        adc #$02
+;        adc #$01
         rts
 
 ;write_debug_current_frame_frog
