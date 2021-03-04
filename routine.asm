@@ -17,11 +17,11 @@ init_random_generator
         sta $d412 ; voice 3 control register
         rts
 
+generator_max   byte    $00
 get_random_number
         lda RND_GENERATOR ; get random value from 0-255
-        cmp #$03
+        cmp generator_max
         bcs get_random_number
-;        adc #$01
         rts
 
 ;write_debug_current_frame_frog

@@ -1,13 +1,12 @@
 ; fly sprite routine
 
-fly_move_x  byte $4f,$51,$53,$55,$57,$59,$5a,$5c
-;            byte $00,$00,$00,$00,$00,$00,$00,$00
-
 fly_wait_for_position   byte $00
 fly_wait_for_position2  byte $00
 fly_position_on_map     byte $00
 current_fly_frame       byte $00
 fly_eaten_frame         byte $00
+fly_direction           byte $00
+
 tmp_random_number       byte $00
 
 ; fly eaten by frog
@@ -54,21 +53,54 @@ fly_eaten_hide_sprite
 
 ; setup fly position
 fly_update_position
-        lda fly_eaten_frame         ; if fly is going to be eaten
-        cmp #$01                    ; stop fly sprite move
+        lda fly_eaten_frame             ; if fly is going to be eaten
+        cmp #$01                        ; stop fly sprite move
         bcc fly_wait_for_update_position
         rts
-fly_wait_for_update_position
-        ldx fly_wait_for_position
+fly_wait_for_update_position            ; fly move allowed
+        ldx fly_wait_for_position       ; look for delay
         inc fly_wait_for_position
-        cpx #$9f
-        bne fly_update_position_impl
-        jmp fly_update_position_reset
-fly_update_position_impl
+        cpx #$01
+        beq fly_update_position_impl    ; delay reached, moving fly
+        rts
+fly_update_position_impl                ; calculate distance to move
+        ldx #00
+        stx fly_wait_for_position
+        lda #$03
+        sta generator_max
         jsr get_random_number
         sta tmp_random_number
+        inc tmp_random_number           ; store distance in temp var
+        inc tmp_random_number
+
+        lda #$30                        ; calculate a new random to
+        sta generator_max               ; detect if is needed a new direction
+        jsr get_random_number
+        cmp #$01
+        bcs fly_move                    ; no direction change, go to move
+        lda fly_direction               ; check new direction
+        cmp #$00
+        beq switch_dir
+        lda #$00
+        sta fly_direction               
+        jmp fly_move
+; SURE there is a better way to do fly_direction handling
+switch_dir 
+        lda #$ff
+        sta fly_direction
+fly_move
+        lda fly_direction               ; move fly based on direction
+        cmp #$00
+        beq fly_move_forward
         lda SPRITE_1_X
+        sec
+        sbc tmp_random_number
+        jmp fly_move_done
+fly_move_forward
+        lda SPRITE_1_X
+        sec
         adc tmp_random_number
+fly_move_done
         sta SPRITE_1_X
         rts
 fly_update_position_reset
@@ -91,12 +123,26 @@ switch_sprite_fly_impl
         stx current_fly_frame
         rts
 switch_sprite_fly_0
-        lda #$c2     ; Sprite 1 (frog frame 0)
+        lda fly_direction
+        cmp #$00
+        beq switch_sprite_fly_0_fw
+        lda #$c4
+        jmp update_sprite_frame_0
+switch_sprite_fly_0_fw
+        lda #$c2
+update_sprite_frame_0
         sta SPRITE_PTR +1
         stx current_fly_frame
         rts
 switch_sprite_fly_1
-        lda #$c3     ; Sprite 1 (frog frame 1)
+        lda fly_direction
+        cmp #$00
+        beq switch_sprite_fly_1_fw
+        lda #$c5
+        jmp update_sprite_frame_1
+switch_sprite_fly_1_fw
+        lda #$c3
+update_sprite_frame_1
         sta SPRITE_PTR +1
         ldx #0
         stx current_fly_frame
