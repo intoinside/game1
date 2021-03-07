@@ -95,17 +95,29 @@ fly_move
         lda SPRITE_1_X
         sec
         sbc tmp_random_number
+        bcs fly_move_done
+        jsr toggle_hi_bit_fly
         jmp fly_move_done
 fly_move_forward
         lda SPRITE_1_X
         sec
         adc tmp_random_number
+        bcc fly_move_done
+        jsr toggle_hi_bit_fly
 fly_move_done
         sta SPRITE_1_X
         rts
 fly_update_position_reset
         lda #00
         sta fly_wait_for_position
+        rts
+
+toggle_hi_bit_fly
+        tax
+        lda SPRITE_MSBX
+        eor #%00000010
+        sta SPRITE_MSBX      ;updated most significant bit value
+        txa
         rts
 
 switch_sprite_fly
