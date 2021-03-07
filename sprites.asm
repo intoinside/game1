@@ -18,7 +18,7 @@ init_sprites
         lda #$0E
         sta SPRITE_1_COLOR      ; sprite 1 color
 
-        lda #$80
+        lda #$a0
         sta SPRITE_0_X          ;set the horizontal position
         lda #$d2
         sta SPRITE_0_Y          ;set the vertical position 
@@ -28,4 +28,3 @@ init_sprites
         sta SPRITE_1_Y
 
         rts
-

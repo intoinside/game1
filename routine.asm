@@ -9,17 +9,11 @@ VBLANKWAITHIGH
         bmi VBLANKWAITHIGH
         rts
 
-init_random_generator
-        lda #$ff  ; maximum frequency value
-        sta $d40e ; voice 3 frequency low byte
-        sta $d40f ; voice 3 frequency high byte
-        lda #$80  ; noise waveform, gate bit off
-        sta $d412 ; voice 3 control register
-        rts
-
 generator_max   byte    $00
 get_random_number
-        lda RND_GENERATOR ; get random value from 0-255
+        lda $d012
+        eor $dc04
+        sbc $dc05
         cmp generator_max
         bcs get_random_number
         rts

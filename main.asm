@@ -2,13 +2,10 @@
 
 ; 10 SYS (2304)
 *=$0801
-
-    BYTE $0E, $08, $0A, $00, $9E, $20, $28, $32
-    BYTE $33, $30, $34, $29, $00, $00, $00
-
+        BYTE $0E, $08, $0A, $00, $9E, $20, $28, $32
+        BYTE $33, $30, $34, $29, $00, $00, $00
 
 *=$0900
-        jsr init_random_generator
         jsr init_screen
         jsr init_map
         jsr init_char_color
@@ -116,7 +113,7 @@ incbin "charset.bin"
 matrix
 incbin "map_1.bin"
 
-*=$2C00
+*=$2c00
 attribs
 incbin "cols.bin"
 

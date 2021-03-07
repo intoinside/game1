@@ -41,14 +41,14 @@
         <PostBuildCommands />
     </BuildEvents>
     <BuildList>
-        <FileName>main.asm</FileName>
-        <FileName>label.asm</FileName>
-        <FileName>frog.asm</FileName>
-        <FileName>routine.asm</FileName>
-        <FileName>joystick.asm</FileName>
-        <FileName>fly.asm</FileName>
         <FileName>collision.asm</FileName>
+        <FileName>fly.asm</FileName>
+        <FileName>frog.asm</FileName>
+        <FileName>joystick.asm</FileName>
+        <FileName>label.asm</FileName>
+        <FileName>routine.asm</FileName>
         <FileName>sprites.asm</FileName>
+        <FileName>main.asm</FileName>
     </BuildList>
     <DetermineBuildOrder>0</DetermineBuildOrder>
     <PaddingByte>0</PaddingByte>
@@ -121,7 +121,7 @@
             <Breakpoints />
             <Bookmarks />
             <Topmost>False</Topmost>
-            <FileOpen>False</FileOpen>
+            <FileOpen>True</FileOpen>
         </SourceFile>
         <SourceFile>
             <Name>label.asm</Name>

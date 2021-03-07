@@ -24,11 +24,11 @@ fly_eaten_frame_impl
         inc fly_eaten_frame
         cpx #$01
         beq fly_eaten_1
-        cpx #$10
+        cpx #$0a
         beq fly_eaten_2
-        cpx #$20
+        cpx #$13
         beq fly_eaten_3
-        cpx #$30
+        cpx #$1c
         bcs fly_eaten_hide_sprite
         rts
 fly_eaten_1
@@ -70,15 +70,15 @@ fly_update_position_impl                ; calculate distance to move
         sta generator_max
         jsr get_random_number
         sta tmp_random_number
-        inc tmp_random_number           ; store distance in temp var
         inc tmp_random_number
+        inc tmp_random_number           ; store distance in tmp_random_number
 
         lda #$30                        ; calculate a new random to
         sta generator_max               ; detect if is needed a new direction
         jsr get_random_number
-        cmp #$01
+        cmp #$06
         bcs fly_move                    ; no direction change, go to move
-        lda fly_direction               ; check new direction
+        lda fly_direction               ; check current direction
         cmp #$00
         beq switch_dir
         lda #$00
