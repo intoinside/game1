@@ -1,11 +1,10 @@
 ; fly sprite routine
 
 fly_wait_for_position   byte $00
-fly_wait_for_position2  byte $00
 fly_position_on_map     byte $00
 current_fly_frame       byte $00
 fly_eaten_frame         byte $00
-fly_direction           byte $00
+fly_direction           byte $00 ;00 means right, ff means left
 
 tmp_random_number       byte $00
 
@@ -93,6 +92,7 @@ fly_move
         cmp #$00
         beq fly_move_forward
         lda SPRITE_1_X
+        jsr check_left_boundary
         sec
         sbc tmp_random_number
         bcs fly_move_done
@@ -100,6 +100,7 @@ fly_move
         jmp fly_move_done
 fly_move_forward
         lda SPRITE_1_X
+        jsr check_right_boundary
         sec
         adc tmp_random_number
         bcc fly_move_done
@@ -110,6 +111,32 @@ fly_move_done
 fly_update_position_reset
         lda #00
         sta fly_wait_for_position
+        rts
+
+; check if new sprite x position (stored in a) is over the right border
+; in this case, direction in switched
+check_right_boundary
+        ldx SPRITE_MSBX
+        cpx #%00000010
+        bne check_right_boundary_done
+        cmp #$40
+        bcc check_right_boundary_done
+        ldx #$ff
+        stx fly_direction
+check_right_boundary_done
+        rts
+
+; check if new sprite x position (stored in a) is over the left border
+; in this case, direction in switched
+check_left_boundary
+        ldx SPRITE_MSBX
+        cpx #%00000010
+        beq check_left_boundary_done
+        cmp #$16
+        bcs check_left_boundary_done
+        ldx #$00
+        stx fly_direction
+check_left_boundary_done
         rts
 
 toggle_hi_bit_fly
