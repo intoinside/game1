@@ -107,19 +107,19 @@ loop_color
 
 ; Resources and includes
 *=$2000
-incbin "charset.bin"
+incbin "resources/charset.bin"
 
 *=$2800
 matrix
-incbin "map_1.bin"
+incbin "resources/map_1.bin"
 
 *=$2c00
 attribs
-incbin "cols.bin"
+incbin "resources/cols.bin"
 
 *=$3000
-incbin "frog.spt",1,2, true
-incbin "fly.spt",1,7, true
+incbin "resources/frog.spt",1,2, true
+incbin "resources/fly.spt",1,7, true
 
 IncAsm "label.asm"
 IncAsm "sprites.asm"
