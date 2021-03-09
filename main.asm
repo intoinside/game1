@@ -86,7 +86,7 @@ paintcols
         bne paintcols
         rts
 
-score_string    text 'PUNTEGGIO: '
+score_string    text 'PUNTEGGIO: 0000'
 
 print_ui  
         ldx #$00         
@@ -94,15 +94,43 @@ loop_text
         lda score_string,x
         sta SCREEN_RAM,x
         inx 
-        cpx #$0b
+        cpx #$0f
         bne loop_text
         ldx #$00
 loop_color  
-        lda #00
+        lda #$00
         sta $d800,x
         inx 
-        cpx #$0b
+        cpx #$0f
         bne loop_color
+        rts
+
+update_score
+        tay
+update_score_impl
+        inc SCREEN_RAM+$0e
+        lda SCREEN_RAM+$0e
+        cmp #$3a  ; >9? (the #0 in the charset is $30,up to $39 for the #9)
+        bne done  ; if not, stop
+        lda #$30  ; else reset last digit to "0" ($30)
+        sta SCREEN_RAM+$0e
+        inc SCREEN_RAM+$0d  ; increase left digit
+        lda SCREEN_RAM+$0d  ; start again with the other digit
+        cmp #$3a
+        bne done
+        lda #$30
+        sta SCREEN_RAM+$0d
+        inc SCREEN_RAM+$0c
+        lda SCREEN_RAM+$0c
+        cmp #$3a
+        bne done
+        lda #$30
+        sta SCREEN_RAM+$0c
+        inc SCREEN_RAM+$0b
+done
+        dey
+        cpy #$00
+        bne update_score_impl
         rts
 
 ; Resources and includes

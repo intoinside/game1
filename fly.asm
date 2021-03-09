@@ -41,12 +41,15 @@ fly_eaten_2
 fly_eaten_3
         lda #$c8
         sta SPRITE_PTR + 1
+        lda #$0a
+        jsr update_score
         rts
 
 fly_eaten_hide_sprite
         ldx #$ff
         stx fly_eaten_frame
-        lda #%00000001
+        lda SPRITE_ENABLE
+        and #%11111101
         sta SPRITE_ENABLE
         rts
 
