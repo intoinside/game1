@@ -51,6 +51,22 @@ fly_eaten_hide_sprite
         lda SPRITE_ENABLE
         and #%11111101
         sta SPRITE_ENABLE
+        jsr fly_eaten_show_new_sprite
+        rts
+
+fly_eaten_show_new_sprite
+        lda #$ff
+        sta generator_max
+        jsr get_random_number
+        sta SPRITE_1_X
+        lda #$00
+        sta fly_eaten_frame
+        lda SPRITE_MSBX
+        and #%11111101
+        sta SPRITE_MSBX
+        lda SPRITE_ENABLE
+        ora #%00000010
+        sta SPRITE_ENABLE
         rts
 
 ; setup fly position
