@@ -1,6 +1,3 @@
-shape byte $fe 
-counter byte 0 ; * = $3f80
-
 RND_GENERATOR = $d41b
 
 SCREEN_RAM = $0400
