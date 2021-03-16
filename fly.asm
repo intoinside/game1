@@ -126,10 +126,39 @@ fly_move_forward
         jsr toggle_hi_bit_fly
 fly_move_done
         sta SPRITE_1_X
+        jsr fly_update_y_pos
         rts
 fly_update_position_reset
         lda #00
         sta fly_wait_for_position
+        rts
+
+fly_update_y_pos
+        lda #$03                ; detect how much can move on y
+        sta generator_max
+        jsr get_random_number
+        sta tmp_random_number
+        lda #$03
+        sta generator_max
+        jsr get_random_number
+        cmp #$01
+        beq fly_update_y_pos_exit
+        cmp #$02
+        beq fly_update_y_pos_up
+fly_update_y_pos_down
+        lda SPRITE_1_Y
+        adc tmp_random_number
+        jmp fly_update_y_pos_check
+fly_update_y_pos_up
+        lda SPRITE_1_Y
+        sbc tmp_random_number
+fly_update_y_pos_check          ; check if fly is too high or too low
+        cmp #$b0
+        bcc fly_update_y_pos_exit
+        cmp #$c2
+        bcs fly_update_y_pos_exit        
+        sta SPRITE_1_Y
+fly_update_y_pos_exit
         rts
 
 ; check if new sprite x position (stored in a) is over the right border
